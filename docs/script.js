@@ -32,6 +32,9 @@ function doKeyDown(e) {
         toggleGravity();
         toggleFriction();
     }
+    else if(e.keyCode == 82){
+        restart();
+    }
 }
 
 function Particle(x, y, dx, dy){
@@ -91,6 +94,26 @@ for (var i = 0; i < 50; i++){
     particleArray.push(new Particle(x, y, dx, dy));
 }
 
+function restart(){
+    particleArray = [];
+    for (var i = 0; i < 50; i++){
+        var r = 15;
+        var x = Math.random() * (innerWidth - r * 2) + r;
+        var y = Math.random() * (innerHeight - r * 2) + r;
+        var dx = (Math.random() - 0.5) * 10;
+        var dy = (Math.random() - 0.5) * 10;
+        particleArray.push(new Particle(x, y, dx, dy));
+    }
+
+    if(g == 0.5){
+        toggleGravity();
+    }
+
+    if(f == 0.5){
+        toggleFriction();
+    }
+}
+
 var circleIntersect = function(x1, y1, r1, x2, y2, r2) {
 
     // Calculate the distance between the two circles
@@ -144,6 +167,13 @@ function collide(){
     }
 }
 
+function help(){
+    c.font = "20px monospace";
+    c.fillStyle = "red";
+    c.fillText("g = toggle gravity", 25, 35);
+    c.fillText("r = restart", 25, 60);
+}
+
 function animate(){
     requestAnimationFrame(animate);
     c.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -151,6 +181,8 @@ function animate(){
     for (i = 0; i < particleArray.length; i++){
         particleArray[i].update();
     }
+
+    help();
 }
 
 animate();
